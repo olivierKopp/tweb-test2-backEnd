@@ -4,7 +4,7 @@ const dbURI = 'mongodb://admin:admin@tweb-test-shard-00-00-vn3wy.mongodb.net:270
 
 const options = {
     useNewUrlParser: true,
-    dbName: 'HappyFaces',
+    dbName: 'tweb-test',
   };
   
   mongoose.connect(dbURI, options);
