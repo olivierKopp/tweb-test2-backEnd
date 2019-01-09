@@ -26,7 +26,7 @@ const options = {
     messages: { type: [String], required: true, default: [] },
     following: { type: [String], required: true, default: [] },
     followers: { type: [String], required: true, default: [] },
-    image: {type: String, required: true, default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlZvqiuGKGD-deDdZT4uZydxfhazuYIQZ9nc3TqR73ROD9i-7k"}
+    image: {type: String, required: true, default: "https://www.shareicon.net/data/128x128/2016/05/29/772557_user_512x512.png"}
   });
 
 const UserModel = mongoose.model('user', userSchema);
