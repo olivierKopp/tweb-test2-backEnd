@@ -69,7 +69,7 @@ const root = {
   createMessage: ({ authorId, content }) => new Promise((resolve) => {
     const newMessage = new MessageModel({ content, authorId });
     newMessage.save((err, message) => {
-      const { id } = message.id;
+      const { id } = message;
       UserModel.updateOne({ _id: authorId }, { $addToSet: { messages: id } })
         .then(() => {
           resolve(message);
@@ -187,7 +187,7 @@ const root = {
           resolve([]);
         } else {
           const promises = [];
-          const { followers } = data.followers;
+          const { followers } = data;
           followers.forEach((element) => {
             promises.push(UserModel.findOne({ _id: element }, { password: 0 }));
           });
@@ -211,7 +211,7 @@ const root = {
           resolve([]);
         } else {
           const promises = [];
-          const { followed } = data.followed;
+          const { followed } = data;
           followed.forEach((element) => {
             promises.push(UserModel.findOne({ _id: element }, { password: 0 }));
           });

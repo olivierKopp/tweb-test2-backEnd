@@ -9,7 +9,7 @@ const options = {
 
 mongoose.connect(dbURI, options);
 
-const { ObjectId } = mongoose.Types.ObjectId;
+const { ObjectId } = mongoose.Types;
 
 
 const messageSchema = new mongoose.Schema({

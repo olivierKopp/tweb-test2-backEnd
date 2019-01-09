@@ -11,7 +11,7 @@ const { UserModel } = require('../database/database');
 const router = express.Router();
 const LocalStrategy = passportLocal.Strategy;
 const JWTStrategy = passportJWT.Strategy;
-const { ExtractJwt } = passportJWT.ExtractJwt;
+const { ExtractJwt } = passportJWT;
 
 // find and authenticate a user with a username and a password
 passport.use(new LocalStrategy(
@@ -54,7 +54,7 @@ passport.use(new JWTStrategy(
 
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   // here, user exists => returned value from passport verification function
-  const { user } = req.user;
+  const { user } = req;
   const token = jwt.sign({ userId: user.id }, jwtOptions.secret);
   res.send({ user, token });
 });
