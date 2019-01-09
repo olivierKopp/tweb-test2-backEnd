@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbURI = 'mongodb://user1:user1@twebkoppsilvestri-shard-00-00-y2dgh.mongodb.net:27017,twebkoppsilvestri-shard-00-01-y2dgh.mongodb.net:27017,twebkoppsilvestri-shard-00-02-y2dgh.mongodb.net:27017/test?ssl=true&replicaSet=TWEBKoppSilvestri-shard-0&authSource=admin&retryWrites=true';
+const dbURI = 'mongodb://admin:admin@tweb-test-shard-00-00-vn3wy.mongodb.net:27017,tweb-test-shard-00-01-vn3wy.mongodb.net:27017,tweb-test-shard-00-02-vn3wy.mongodb.net:27017/test?ssl=true&replicaSet=TWEB-test-shard-0&authSource=admin&retryWrites=true'
 
 const options = {
     useNewUrlParser: true,
