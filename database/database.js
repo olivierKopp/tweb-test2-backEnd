@@ -12,19 +12,19 @@ mongoose.connect(dbURI, options);
 const { ObjectId } = mongoose.Types;
 
 const movieSchema = new mongoose.Schema({
-  vote_count: { type: Number, required: true, default : 0 },
-  video: { type: Boolean, required: true, default : false},
-  vote_average: { type: Number, required: true, default : 0},
-  title: { type: String, required: true, default: "" },
+  vote_count: { type: Number, required: true, default: 0 },
+  video: { type: Boolean, required: true, default: false },
+  vote_average: { type: Number, required: true, default: 0 },
+  title: { type: String, required: true, default: '' },
   popularity: { type: Number, required: true, default: 0 },
-  poster_path: { type: String, required: true, default: "" },
-  original_language: { type: String, required: true, default: ""},
-  original_title: { type: String, required: true, default: ""},
-  backdrop_path: { type: String, required: true, default: ""},
-  adult: { type: Boolean, required: true, default: false},
-  overview: { type: String, required: true, default: ""},
-  release_date: { type: String, required: true, default: ""},
-  tmdb_id: { type: Number, required: true, default: 0},
+  poster_path: { type: String, required: true, default: '' },
+  original_language: { type: String, required: true, default: '' },
+  original_title: { type: String, required: true, default: '' },
+  backdrop_path: { type: String, required: true, default: '' },
+  adult: { type: Boolean, required: true, default: false },
+  overview: { type: String, required: true, default: '' },
+  release_date: { type: String, required: true, default: '' },
+  tmdb_id: { type: Number, required: true, default: 0 },
   genres: { type: [String], required: true, default: [] },
 });
 

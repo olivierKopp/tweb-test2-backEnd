@@ -1,5 +1,5 @@
 const { buildSchema } = require('graphql');
-const { MovieModel, UserModel, ObjectId } = require('../database/database');
+const { MovieModel, UserModel } = require('../database/database');
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -42,100 +42,101 @@ type User {
 
 // The root provides a resolver function for each API endpoint
 const root = {
-  getMovies({ offset }){
-    return new Promise ((resolve) => {
+  getMovies({ offset }) {
+    return new Promise((resolve) => {
       MovieModel.find()
-      .then(data => {
-        const begin = (offset * 99) + offset;
-        const end = (offset + 1) * 99;
-        data = data.slice(begin, end)
-        resolve(data);
-      })
-      .catch(err => {
-        resolve(err);
-      })
-    })
+        .then((data) => {
+          const begin = (offset * 99) + offset;
+          const end = (offset + 1) * 99;
+          const finalData = data.slice(begin, end);
+          resolve(finalData);
+        })
+        .catch((err) => {
+          resolve(err);
+        });
+    });
   },
-  register({ username, password }){
+  register({ username, password }) {
     return new Promise((resolve) => {
-      let newUser = new UserModel({ username, password });
-      UserModel.findOne({username}, {password: 0}).then(data => {
-        if(data === null){
+      const newUser = new UserModel({ username, password });
+      UserModel.findOne({ username }, { password: 0 }).then((data) => {
+        if (data === null) {
           newUser.save()
-          .then(savedUser => {
-            savedUser.password = "";
-            resolve(savedUser);
-          })
+            .then((savedUser) => {
+              const userCreated = savedUser;
+              userCreated.password = '';
+              resolve(userCreated);
+            });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  },
+  addInWatchList({ username, moviesId }) {
+    return new Promise((resolve) => {
+      const promises = [];
+      // check if the user exist
+      UserModel.findOne({ username })
+        .then((userFound) => {
+          if (userFound === null) {
+            resolve(false);
+          } else {
+            moviesId.forEach(
+              (element) => {
+                promises.push(UserModel.updateOne(
+                  { username },
+                  { $addToSet: { watchList: element } },
+                ));
+              },
+            );
+            Promise.all(promises)
+              .then(() => {
+                resolve(true);
+              })
+              .catch(() => {
+                resolve(false);
+              });
           }
-          else {
-            resolve(null)
+        });
+    });
+  },
+  removeFromWatchList({ username, moviesId }) {
+    return new Promise((resolve) => {
+      const promises = [];
+      // check if the user exist
+      UserModel.findOne({ username })
+        .then((userFound) => {
+          if (userFound === null) {
+            resolve(false);
+          } else {
+            moviesId.forEach((element) => {
+              promises.push(UserModel.updateOne({ username }, { $pull: { watchList: element } }));
+            });
+            Promise.all(promises)
+              .then(() => {
+                resolve(true);
+              })
+              .catch(() => {
+                resolve(false);
+              });
           }
-      })
-    })
-  },
-  addInWatchList({username, moviesId}){
-    return new Promise((resolve) => {
-      const promises = []
-     //check if the user exist
-     UserModel.findOne({username})
-     .then(userFound => {
-       if(userFound === null){
-         resolve(false);
-       }
-       else{
-         moviesId.forEach(element => {
-           promises.push(UserModel.updateOne({username}, {$addToSet: {watchList: element}}));
-         });
-         Promise.all(promises)
-         .then(() => {
-           resolve(true);
-         })
-         .catch(() => {
-           resolve (false);
-         })
-       }
-     })
+        });
     });
   },
-  removeFromWatchList({ username, moviesId }){
+  getWatchList({ username }) {
     return new Promise((resolve) => {
-      const promises = []
-     //check if the user exist
-     UserModel.findOne({username})
-     .then(userFound => {
-       if(userFound === null){
-         resolve(false);
-       }
-       else{
-         moviesId.forEach(element => {
-           promises.push(UserModel.updateOne({username}, {$pull: {watchList: element}}));
-         });
-         Promise.all(promises)
-         .then(() => {
-           resolve(true);
-         })
-         .catch(() => {
-           resolve (false);
-         })
-       }
-     })
+      // check if the user exist
+      UserModel.findOne({ username })
+        .then((userFound) => {
+          if (userFound === null) {
+            resolve(null);
+          } else {
+            resolve(userFound.watchList);
+          }
+        });
     });
   },
-  getWatchList({ username }){
-    return new Promise((resolve) => {
-      const promises = []
-     //check if the user exist
-     UserModel.findOne({username})
-     .then(userFound => {
-       if(userFound === null){
-         resolve(null);
-       }
-       else{
-         resolve(userFound.watchList);
-       }
-     })
-    });
-  }
 };
 
 module.exports = { schema, root };
