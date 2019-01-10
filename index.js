@@ -23,6 +23,11 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use('/auth', router);
 
+app.get('/', (req, res) => {
+  res.send("magic happen at /graphql");
+});
+
+
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: root,
