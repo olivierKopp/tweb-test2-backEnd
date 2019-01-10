@@ -46,8 +46,8 @@ const root = {
     return new Promise((resolve) => {
       MovieModel.find()
         .then((data) => {
-          const begin = (offset * 99) + offset;
-          const end = (offset + 1) * 99;
+          const begin = (offset * 100) + offset;
+          const end = (offset + 1) * 100;
           const finalData = data.slice(begin, end);
           resolve(finalData);
         })
