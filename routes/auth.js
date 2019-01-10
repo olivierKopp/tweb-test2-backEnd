@@ -17,12 +17,12 @@ const { ExtractJwt } = passportJWT;
 passport.use(new LocalStrategy(
   // Options
   {
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
   },
   // Verification function
-  (email, password, done) => {
-    UserModel.findOne({ email, password }, { password: 0 }, (err, obj) => {
+  (username, password, done) => {
+    UserModel.findOne({ username, password }, { password: 0 }, (err, obj) => {
       if (err || !obj) {
         return done(null, false);
       }
