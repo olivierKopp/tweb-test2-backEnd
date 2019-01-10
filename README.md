@@ -1,4 +1,8 @@
-# tweb-test2-backEnd
+# tweb-test2 Olivier Kopp
+
+## importation des films
+
+![importDB](./importDB.png)
 
 ## Liste des films
 
